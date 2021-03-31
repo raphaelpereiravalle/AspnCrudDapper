@@ -1,0 +1,71 @@
+﻿@model List<AspnCrudDapper.Entities.Produto>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="main-container">
+    <div class="row">
+        <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-12">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+                <h1 class="h2">Produtos</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group mr-2">
+                        <button class="btn btn-sm btn-outline-secondary" id="btnCadastroProduto" title="Cadastro de Produto">
+                            <i class="flaticon2-plus"></i> Adicionar Novo Produto
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm" id="dtProduto">
+                    <thead>
+                        <tr>
+                            <th class="text-left">Código</th>
+                            <th>Nome</th>
+                            <th class="text-center">Estoque</th>
+                            <th class="text-center">Preco</th>
+                            <th class="text-center" style="width: 20px;">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Any())
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="text-left">@item.ProdutoId</td>
+                                    <td>@item.Nome</td>
+                                    <td class="text-center"><span class="badge badge-success rounded-pill">@item.Estoque</span></td>
+                                    <td class="text-center">@item.Preco</td>
+                                    <td class="text-center">
+                                        <div class="btn-group">
+                                            <button type="submit" class="btn btn-sm btn-primary" title="Editar" id="btnEditarProduto" name="btnEditarProduto" onclick="editarProduto('@item.ProdutoId');">
+                                                <i class="fa fa-fw fa-pencil-alt"></i>
+                                            </button>
+                                            <button type="submit" class="btn btn-sm btn-danger" title="Excluir" id="btnExcluirProduto" name="btnExcluirProduto" onclick="excluirProduto('@item.ProdutoId');">
+                                                <i class="fa fa-fw fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Top Modal Incluir/Editar/Excluir-->
+<div class="modal fade" id="modal-produto" tabindex="-1" role="dialog" aria-labelledby="modal-block-small" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div id="modalProduto"></div>
+    </div>
+</div>
+<!-- End Top Modal -->
+
+@section Scripts{
+    <script src="~/js/produto.js" asp-append-version="true"></script>
+}
+

@@ -1,0 +1,50 @@
+﻿@model AspnCrudDapper.Entities.Produto
+@{
+    ViewData["Title"] = Model.ProdutoId == null ? "Incluir Produto" : "Editar Produto";
+    ViewData["Acao"] = Model.ProdutoId == null ? 0 : 1;
+    ViewData["IdProduto"] = Model.ProdutoId == null ? "null" : string.Format("'{0}'", @Model.ProdutoId.ToString());
+    Layout = null;
+}
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">@ViewData["Title"]</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+    </div>
+    @using (Html.BeginForm("", "", FormMethod.Post, new { id = "frmProduto" }))
+    {
+        <div class="modal-body">
+            <div class="row">
+                <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 error">
+                    <div>
+                        @Html.LabelFor(model => model.Nome, new { @class = "form-control-label" })
+                        @Html.TextBoxFor(model => model.Nome, new { id = "Nome", @class = "form-control", placeholder = "Nome do produto" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6 error">
+                    <div>
+                        @Html.LabelFor(model => model.Estoque, new { @class = "form-control-label" })
+                        @Html.TextBoxFor(model => model.Estoque, new { id = "Estoque", @class = "form-control", placeholder = "Estoque" })
+                    </div>
+                </div>
+                <div class="form-group col-md-6 error">
+                    <div>
+                        @Html.LabelFor(model => model.Preco, new { @class = "form-control-label" })
+                        @Html.TextBoxFor(model => model.Preco, new { id = "Preco", @class = "form-control", placeholder = "Preço" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <input type="submit" class="btn btn-primary" id="btnManterProduto" value="Enviar" onclick="manterProduto(@ViewData["Acao"], @ViewData["IdProduto"]);" />
+            </div>
+        </div>
+    }
+</div>
+
+
+
