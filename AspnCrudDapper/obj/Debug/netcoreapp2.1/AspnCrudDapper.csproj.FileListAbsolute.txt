@@ -7,7 +7,6 @@ C:\Projetos\dev\.NET\AspnCrudDapper\AspnCrudDapper\bin\Debug\netcoreapp2.1\AspnC
 C:\Projetos\dev\.NET\AspnCrudDapper\AspnCrudDapper\bin\Debug\netcoreapp2.1\AspnCrudDapper.pdb
 C:\Projetos\dev\.NET\AspnCrudDapper\AspnCrudDapper\bin\Debug\netcoreapp2.1\AspnCrudDapper.Views.dll
 C:\Projetos\dev\.NET\AspnCrudDapper\AspnCrudDapper\bin\Debug\netcoreapp2.1\AspnCrudDapper.Views.pdb
-C:\Projetos\dev\.NET\AspnCrudDapper\AspnCrudDapper\obj\Debug\netcoreapp2.1\AspnCrudDapper.csprojAssemblyReference.cache
 C:\Projetos\dev\.NET\AspnCrudDapper\AspnCrudDapper\obj\Debug\netcoreapp2.1\AspnCrudDapper.AssemblyInfoInputs.cache
 C:\Projetos\dev\.NET\AspnCrudDapper\AspnCrudDapper\obj\Debug\netcoreapp2.1\AspnCrudDapper.AssemblyInfo.cs
 C:\Projetos\dev\.NET\AspnCrudDapper\AspnCrudDapper\obj\Debug\netcoreapp2.1\AspnCrudDapper.csproj.CoreCompileInputs.cache

@@ -13,6 +13,8 @@ namespace AspnCrudDapper.Entities
 
         public string Telefone { get; set; }
 
+        public string Celular { get; set; }
+
         [StringLength(150)]
         public string Endereco { get; set; }
 
@@ -22,7 +24,7 @@ namespace AspnCrudDapper.Entities
         [StringLength(50)]
         public string Bairro { get; set; }
 
-        public DateTime DataNascimento { get; set; }
+        public DateTime? DataNascimento { get; set; }
 
         public DateTime DataCadastro{ get; set; }
     }

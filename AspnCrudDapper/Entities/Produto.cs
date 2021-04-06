@@ -8,6 +8,11 @@ namespace AspnCrudDapper.Entities
         [Key]
         [Display(Name = "Id")]
         public string ProdutoId { get; set; }
+        
+        [Required]
+        [Display(Name = "Código do produto")]
+        [StringLength(25, ErrorMessage = "O código do produto contem no maxímo 25 caracteres!")]
+        public string CodProdtuto { get; set; }
 
         [Required]
         [Display(Name = "Nome do produto")]

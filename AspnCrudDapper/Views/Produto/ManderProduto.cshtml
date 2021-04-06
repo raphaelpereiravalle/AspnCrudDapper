@@ -1,7 +1,6 @@
 ﻿@model AspnCrudDapper.Entities.Produto
 @{
     ViewData["Title"] = Model.ProdutoId == null ? "Incluir Produto" : "Editar Produto";
-    ViewData["Acao"] = Model.ProdutoId == null ? 0 : 1;
     ViewData["IdProduto"] = Model.ProdutoId == null ? "null" : string.Format("'{0}'", @Model.ProdutoId.ToString());
     Layout = null;
 }
@@ -40,7 +39,7 @@
         <div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                <input type="submit" class="btn btn-primary" id="btnManterProduto" value="Enviar" onclick="manterProduto(@ViewData["Acao"], @ViewData["IdProduto"]);" />
+                <input type="submit" class="btn btn-primary" id="btnManterProduto" value="Enviar" onclick="manterProduto(@ViewData["IdProduto"]);" />
             </div>
         </div>
     }

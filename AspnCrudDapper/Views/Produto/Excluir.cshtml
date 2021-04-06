@@ -1,6 +1,7 @@
 ﻿@model AspnCrudDapper.Entities.Produto
 @{
     ViewData["Title"] = "Excluir";
+    Layout = null;
 }
 
 <div class="modal-content">
@@ -16,7 +17,7 @@
     <div class="kt-portlet__foot">
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <input type="submit" class="btn btn-danger" id="btnExcluirProduto" value="Excluir" onclick="deleteProduto('@Model.ProdutoId');" />
+            <input type="submit" class="btn btn-danger" id="btnExcluirProduto" value="Excluir" onclick="excluirProduto('@Model.ProdutoId.ToString()');" />
         </div>
     </div>
 </div>

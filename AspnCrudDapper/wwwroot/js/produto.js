@@ -21,21 +21,26 @@
 //    })
 //});
 
-function controle(acao) {
-    if (acao == 0) {
-        'Add'
-    } else if (acao == 1) {
-        'Edit'
-    } else {
-        'Delete'
+$(document).ready(function () {
+    renderizarDesignDataTables('dtProduto', true);
+});
+
+function controle(id_acao) {
+    let acao = null;
+    if (id_acao == 0) {
+        acao = 'ManderProduto';
+    } else if (id_acao == 1) {
+        acao = 'Excluir';
     }
+    return acao;
 }
 
-function metodo(acao) {
+function modal(id_acao, cod) {
     $.ajax({
-        url: criarURL(controller(acao), 'ManderProduto'),
+        url: criarURL('Produto', controle(id_acao)),
         type: 'GET',
         dataType: 'HTML',
+        data: { cod: cod === null ? null : cod },
         success: function (response) {
             if (!($('.modal.in').length)) {
                 $('.modal-dialog').css({
@@ -43,6 +48,8 @@ function metodo(acao) {
                     left: 0
                 });
             }
+
+
             $('#modalProduto').html('');
             $('#modalProduto').html(response);
             $('#modal-produto').modal('show');
@@ -122,6 +129,30 @@ function manterProduto(cod) {
                     console.log(e);
                 }
             });
+        }
+    });
+}
+
+function excluirProduto(cod) {
+    $.ajax({
+        url: criarURL('Produto', 'Delete'),
+        type: 'DELETE',
+        dataType: 'HTML',
+        data: { cod: cod },
+        // async: true,
+        //contentType: false,
+        //processData: false,
+        cache: false,
+        success: function (response) {
+            if (response.success) {
+                //atualizarDesignDataTables("Cliente", "GridCliente", "idGridCliente", "dtCliente", 0, "modal-cliente", null);
+                notificacao('success', 'Sucesso', response.message);
+            } else {
+                notificacao('danger', 'Erro', response.message);
+            }
+        },
+        error: function (e) {
+            console.log(e);
         }
     });
 }

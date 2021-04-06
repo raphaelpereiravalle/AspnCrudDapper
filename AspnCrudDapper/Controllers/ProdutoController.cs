@@ -57,7 +57,8 @@ namespace AspnCrudDapper.Controllers
         [HttpPost]
         public JsonResult Add(Produto produto)
         {
-            try {
+            try
+            {
                 produto.DataCadastro = DateTime.Now;
                 _produtoRepository.Add(produto);
 
@@ -69,16 +70,30 @@ namespace AspnCrudDapper.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult Edit()
+        [HttpPut]
+        public JsonResult Edit(Produto produto)
         {
-            return View();
+            try
+            {
+                produto.DataCadastro = DateTime.Now;
+                _produtoRepository.Edit(produto);
+
+                return Json(new JsonModel { Success = true, Message = "Edição do produto efetuado com sucesso!" });
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         [HttpGet]
-        public ActionResult Excluir()
+        public ActionResult Excluir(string cod)
         {
             Produto produto = new Produto();
+
+            produto = _produtoRepository.Get(cod);
+
+
             return View(produto);
         }
 

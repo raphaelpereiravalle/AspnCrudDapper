@@ -10,14 +10,14 @@
                 <h1 class="h2">Produtos</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="btn-group mr-2">
-                        <button class="btn btn-sm btn-outline-secondary" id="btnCadastroProduto" title="Cadastro de Produto">
-                            <i class="flaticon2-plus"></i> Adicionar Novo Produto
-                        </button>
+                        <input class="btn btn-sm btn-outline-secondary" id="btnCadastroProduto" title="Cadastro de Produto" value="Adicionar Novo Produto" onclick="modal(0, null);">
+                        <i class="flaticon2-plus"></i>  @*Adicionar Novo Produto*@
+                       
                     </div>
                 </div>
             </div>
-            <div class="table-responsive">
-                <table class="table table-striped table-sm" id="dtProduto">
+            <div class="idGridProduto">
+                <table class="table table-striped" id="dtProduto">
                     <thead>
                         <tr>
                             <th class="text-left">Código</th>
@@ -39,10 +39,10 @@
                                     <td class="text-center">@item.Preco</td>
                                     <td class="text-center">
                                         <div class="btn-group">
-                                            <button type="submit" class="btn btn-sm btn-primary" title="Editar" id="btnEditarProduto" name="btnEditarProduto" onclick="editarProduto('@item.ProdutoId');">
+                                            <button type="submit" class="btn btn-sm btn-primary" title="Editar" id="btnEditarProduto"  name="btnEditarProduto" onclick="modal(0, '@item.ProdutoId');">
                                                 <i class="fa fa-fw fa-pencil-alt"></i>
                                             </button>
-                                            <button type="submit" class="btn btn-sm btn-danger" title="Excluir" id="btnExcluirProduto" name="btnExcluirProduto" onclick="excluirProduto('@item.ProdutoId');">
+                                            <button type="submit" class="btn btn-sm btn-danger" title="Excluir" id="btnExcluirProduto" name="btnExcluirProduto" onclick="modal(1, '@item.ProdutoId');">
                                                 <i class="fa fa-fw fa-times"></i>
                                             </button>
                                         </div>
