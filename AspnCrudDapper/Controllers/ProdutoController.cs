@@ -1,9 +1,9 @@
 ﻿using AspnCrudDapper.Entities;
 using AspnCrudDapper.Repository;
 using Microsoft.AspNetCore.Mvc;
+using SYN.Domain.Model;
 using System;
-using System.Collections.Generic;
-
+using System.Threading.Tasks;
 
 namespace AspnCrudDapper.Controllers
 {
@@ -17,15 +17,13 @@ namespace AspnCrudDapper.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                List<Produto> model = new List<Produto>();
+                DadosProduto resultado = await _produtoRepository.GetProdutos();
 
-                model = _produtoRepository.GetProdutos();
-
-                return View(model);
+                return View(resultado.Resultado);
             }
             catch (Exception ex)
             {
@@ -33,6 +31,21 @@ namespace AspnCrudDapper.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<JsonResult> ListarProduto()
+        {
+            try
+            {
+                DadosProduto resultado = await _produtoRepository.GetProdutos();
+
+                return Json(new JsonModel() { Success = true, result = resultado.Resultado, Message = resultado.Msg });
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
         [HttpGet]
         public ActionResult ManderProduto(string cod)
         {
@@ -55,14 +68,20 @@ namespace AspnCrudDapper.Controllers
         }
 
         [HttpPost]
-        public JsonResult Add(Produto produto)
+        public async Task<JsonResult> Add(Produto produto)
         {
             try
             {
                 produto.DataCadastro = DateTime.Now;
-                _produtoRepository.Add(produto);
+                Notificacao resultado = await _produtoRepository.Add(produto);
 
-                return Json(new JsonModel { Success = true, Message = "Cadastro do produto efetuado com sucesso!" });
+                if (resultado.Erro)
+                {
+                    return Json(new JsonModel() { Success = false, result = resultado.Resultado, Message = resultado.Msg });
+                }
+
+                return Json(new JsonModel() { Success = true, result = resultado, Message = resultado.Msg });
+
             }
             catch (Exception ex)
             {
@@ -71,14 +90,19 @@ namespace AspnCrudDapper.Controllers
         }
 
         [HttpPut]
-        public JsonResult Edit(Produto produto)
+        public async Task<JsonResult> Edit(Produto produto)
         {
             try
             {
                 produto.DataCadastro = DateTime.Now;
-                _produtoRepository.Edit(produto);
+                Notificacao resultado = await _produtoRepository.Edit(produto);
 
-                return Json(new JsonModel { Success = true, Message = "Edição do produto efetuado com sucesso!" });
+                if (resultado.Erro)
+                {
+                    return Json(new JsonModel() { Success = false, result = resultado.Resultado, Message = resultado.Msg });
+                }
+
+                return Json(new JsonModel() { Success = true, result = resultado, Message = resultado.Msg });
             }
             catch (Exception ex)
             {
@@ -90,20 +114,24 @@ namespace AspnCrudDapper.Controllers
         public ActionResult Excluir(string cod)
         {
             Produto produto = new Produto();
-
             produto = _produtoRepository.Get(cod);
-
 
             return View(produto);
         }
 
         [HttpDelete]
-        public ActionResult Delete(string cod)
+        public async Task<JsonResult> Delete(string cod)
         {
             try
             {
-                _produtoRepository.Delete(cod);
-                return View();
+                Notificacao resultado = await _produtoRepository.Delete(cod);
+
+                if (resultado.Erro)
+                {
+                    return Json(new JsonModel() { Success = false, result = resultado.Resultado, Message = resultado.Msg });
+                }
+
+                return Json(new JsonModel() { Success = true, result = resultado, Message = resultado.Msg });
             }
             catch (Exception ex)
             {

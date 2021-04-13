@@ -1,14 +1,15 @@
 ﻿using AspnCrudDapper.Entities;
-using System.Collections.Generic;
+using SYN.Domain.Model;
+using System.Threading.Tasks;
 
 namespace AspnCrudDapper.Repository
 {
     public interface IProdutoRepository
     {
-        int Add(Produto produto);
-        List<Produto> GetProdutos();
+        Task<Notificacao> Add(Produto produto);
+        Task<DadosProduto> GetProdutos();
         Produto Get(string id);
-        int Edit(Produto produto);
-        int Delete(string id);
+        Task<Notificacao> Edit(Produto produto);
+        Task<Notificacao> Delete(string id);
     }
 }

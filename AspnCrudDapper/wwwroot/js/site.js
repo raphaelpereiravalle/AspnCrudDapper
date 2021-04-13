@@ -3,6 +3,16 @@
 
 // Write your JavaScript code.
 
+// Função para validar view
+function controle(id_acao) {
+    let acao = null;
+    if (id_acao == 0) {
+        acao = 'ManderProduto';
+    } else if (id_acao == 1) {
+        acao = 'Excluir';
+    }
+    return acao;
+}
 
 // Função para criar url para a controller
 function criarURL(controller, action) {
@@ -11,6 +21,8 @@ function criarURL(controller, action) {
 
 // Função de notificação 
 function notificacao(tipo, titulo, mensagem) {
+    // Fecha a notificação anterior
+    $.notifyClose();
 
     var content = {};
     // content.title = titulo  + '<br>';
@@ -20,7 +32,8 @@ function notificacao(tipo, titulo, mensagem) {
     $.notify(content, {
         type: tipo,
         spacing: 10,
-        timer: 1500,
+        timer: 1000,
+        offset: 60 ,
         placement: {
             from: 'top',
             align: 'center'
@@ -31,7 +44,7 @@ function notificacao(tipo, titulo, mensagem) {
 
 // Função para validar variáveis
 function isNullOrWhiteSpace(value) {
-    return value === null || value === "" || value === undefined || (isNumber(value) ? isNaN(value) : false);
+    return value === null || value === "" || value === undefined;
 }
 
 // Função para esconder modal, recarregar datatables, limpar mensagens
@@ -88,6 +101,7 @@ function renderizarDesignDataTables(id, info) {
     });
 }
 
+// Função para atualizar datatables após ação
 function atualizarDesignDataTables(controller, metodo, idGrid, datatables, tempo, modal, data) {
     $.ajax({
         url: criarURL(controller, metodo),

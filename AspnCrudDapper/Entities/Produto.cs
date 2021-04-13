@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AspnCrudDapper.Entities
@@ -12,7 +13,7 @@ namespace AspnCrudDapper.Entities
         [Required]
         [Display(Name = "Código do produto")]
         [StringLength(25, ErrorMessage = "O código do produto contem no maxímo 25 caracteres!")]
-        public string CodProdtuto { get; set; }
+        public string CodProduto { get; set; }
 
         [Required]
         [Display(Name = "Nome do produto")]
@@ -29,5 +30,19 @@ namespace AspnCrudDapper.Entities
         public decimal Preco { get; set; }
 
         public DateTime DataCadastro { get; set; }
+    }
+
+    public class DadosProduto
+    {
+        public DadosProduto(bool erro, string msg, IEnumerable<Produto> resultado)
+        {
+            Erro = erro;
+            Msg = msg;
+            Resultado = resultado;
+        }
+
+        public bool Erro { get; set; }
+        public string Msg { get; set; }
+        public IEnumerable<Produto> Resultado { get; set; }
     }
 }

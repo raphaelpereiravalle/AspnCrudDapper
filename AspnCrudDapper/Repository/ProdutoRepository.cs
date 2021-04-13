@@ -1,10 +1,11 @@
 ﻿using AspnCrudDapper.Entities;
 using Dapper;
 using Microsoft.Extensions.Configuration;
+using SYN.Domain.Model;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AspnCrudDapper.Repository
 {
@@ -23,67 +24,100 @@ namespace AspnCrudDapper.Repository
             return connection;
         }
 
-        public int Add(Produto produto)
+        public async Task<Notificacao> Add(Produto produto)
         {
-            //var connectionString = this.GetConnection();
-            int count = 0;
-
             using (var con = new SqlConnection(this.GetConnection()))
             {
                 try
                 {
                     con.Open();
-                    string query = "INSERT INTO Produtos(Nome, Estoque, Preco, DataCadastro) VALUES (@Nome, @Estoque, @Preco, @DataCadastro); SELECT CAST(SCOPE_IDENTITY() AS INT)";
-                    count = con.Execute(query, produto);
+                    string query = @"INSERT INTO Produtos(
+                                         ProdutoId,
+                                         CodProduto, 
+                                         Nome, 
+                                         Estoque, 
+                                         Preco, 
+                                         DataCadastro) 
+                                    VALUES 
+                                        (@ProdutoId,
+                                         @CodProduto, 
+                                         @Nome, 
+                                         @Estoque,
+                                         @Preco,
+                                         @DataCadastro)";
+
+                    Guid guid = Guid.NewGuid();
+
+                    await con.ExecuteAsync(query, new
+                    {
+                        ProdutoId = guid.ToString(),
+                        CodProduto = produto.CodProduto.ToString(),
+                        Nome = produto.Nome.ToString(),
+                        Estoque = produto.Estoque,
+                        Preco = produto.Preco,
+                        DataCadastro = produto.DataCadastro
+                    });
+
+                    return new Notificacao(false, "Cadastro realizado com sucesso", "");
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    return new Notificacao(true, "Erro ao cadastrar", ex.Message);
                 }
                 finally
                 {
                     con.Close();
                 }
             }
-
-            return count;
         }
 
-        public List<Produto> GetProdutos()
+        public async Task<DadosProduto> GetProdutos()
         {
-            //var connectionString = this.GetConnection();
-            List<Produto> produtos = new List<Produto>();
-
             using (var con = new SqlConnection(this.GetConnection()))
             {
                 try
                 {
                     con.Open();
-                    var query = "SELECT * FROM Produtos";
-                    produtos = con.Query<Produto>(query).ToList();
+                    var query = @"SELECT 
+                                    ProdutoId,
+                                    CodProduto, 
+                                    Nome, 
+                                    Estoque, 
+                                    Preco, 
+                                    DataCadastro
+                                FROM Produtos 
+                                ORDER BY DataCadastro DESC";
+
+                    return new DadosProduto(false, "Listagem com sucesso", await con.QueryAsync<Produto>(query));
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    return new DadosProduto(true, "Erro ao listar" + ex, null);
                 }
                 finally
                 {
                     con.Close();
                 }
-                return produtos;
             }
         }
 
         public Produto Get(string id)
         {
-            //  var connectionString = this.GetConnection();
             Produto produto = new Produto();
             using (var con = new SqlConnection(this.GetConnection()))
             {
                 try
                 {
                     con.Open();
-                    string query = "SELECT * FROM Produtos WHERE ProdutoId = '{0}'";
+                    string query = @"SELECT 
+                                        ProdutoId,
+                                        CodProduto, 
+                                        Nome, 
+                                        Estoque, 
+                                        Preco, 
+                                        DataCadastro
+                                    FROM Produtos WHERE ProdutoId = '{0}'";
+
                     produto = con.Query<Produto>(string.Format(query, id)).FirstOrDefault();
                 }
                 catch (Exception ex)
@@ -98,30 +132,36 @@ namespace AspnCrudDapper.Repository
             }
         }
 
-        public int Edit(Produto produto)
+        public async Task<Notificacao> Edit(Produto produto)
         {
-            //var connectionString = this.GetConnection();
-            var count = 0;
             using (var con = new SqlConnection(this.GetConnection()))
             {
                 try
                 {
                     con.Open();
-                    string query = "UPDATE Produtos SET Nome = @Nome, Estoque = @Estoque, Preco = @Preco, DataCadastro = @DataCadastro WHERE ProdutoId = @ProdutoId";
-                    count = con.Execute(query, new
+                    string query = @"UPDATE Produtos SET 
+                                        CodProduto = @CodProduto,                         
+                                        Nome = @Nome, 
+                                        Estoque = @Estoque, 
+                                        Preco = @Preco, 
+                                        DataCadastro = @DataCadastro 
+                                    WHERE ProdutoId = @ProdutoId";
+
+                    await con.ExecuteAsync(query, new
                     {
                         ProdutoId = produto.ProdutoId.ToString(),
+                        CodProduto = produto.CodProduto,
                         Nome = produto.Nome,
                         Estoque = produto.Estoque,
                         Preco = produto.Preco,
                         DataCadastro = produto.DataCadastro
                     });
 
-                    return count;
+                    return new Notificacao(false, "Atualização realizada com sucesso!", "");
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    return new Notificacao(true, "Erro ao atualizar", ex.Message);
                 }
                 finally
                 {
@@ -130,26 +170,26 @@ namespace AspnCrudDapper.Repository
             }
         }
 
-        public int Delete(string id)
+        public async Task<Notificacao> Delete(string id)
         {
-            var count = 0;
             using (var con = new SqlConnection(this.GetConnection()))
             {
                 try
                 {
                     con.Open();
-                    string query = "DELETE FROM Produtos WHERE ProdutoId = '{0}'";
-                    count = con.Execute(string.Format(query, id));
+                    string query = @"DELETE FROM Produtos WHERE ProdutoId = '{0}'";
+                    await con.ExecuteAsync(string.Format(query, id));
+
+                    return new Notificacao(false, "Produto deletada com sucesso!", "");
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    return new Notificacao(true, "Erro ao deletar Produto", ex.Message);
                 }
                 finally
                 {
                     con.Close();
                 }
-                return count;
             }
         }
     }
