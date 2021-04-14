@@ -63,6 +63,6 @@
 #*.RTF   diff=astextplain
 
 $ cat .gitattributes
-*.js linguist-language=Net
+*.js linguist-language=C#
 
 
