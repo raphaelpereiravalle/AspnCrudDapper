@@ -34,3 +34,4 @@ C:\Projetos\dev\.NET\AspnCrudDapper\AspnCrudDapper\bin\Debug\netcoreapp2.1\AspnC
 C:\Projetos\dev\.NET\AspnCrudDapper\AspnCrudDapper\obj\Debug\netcoreapp2.1\AspnCrudDapper.Views.pdb
 C:\Projetos\dev\.NET\AspnCrudDapper\AspnCrudDapper\obj\Debug\netcoreapp2.1\AspnCrudDapper.genruntimeconfig.cache
 C:\Projetos\dev\.NET\AspnCrudDapper\AspnCrudDapper\obj\Debug\netcoreapp2.1\AspnCrudDapper.csproj.CopyComplete
+C:\Projetos\dev\.NET\AspnCrudDapper\AspnCrudDapper\obj\Debug\netcoreapp2.1\AspnCrudDapper.csprojAssemblyReference.cache
